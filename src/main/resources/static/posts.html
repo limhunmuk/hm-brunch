@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>일반 게시글 - 블로그 이름</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+      /* 일반 게시글 페이지 스타일 */
+      .page-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          margin-top: 2rem;
+      }
+
+      .posts-table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+
+      .posts-table th {
+          background-color: var(--secondary);
+          padding: 0.75rem 1rem;
+          text-align: left;
+          font-weight: 500;
+      }
+
+      .posts-table td {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid var(--border-color);
+      }
+
+      .posts-table tr:hover {
+          background-color: #f9f9f9;
+      }
+
+      .post-link:hover {
+          color: var(--primary);
+      }
+
+      .pagination {
+          display: flex;
+          justify-content: center;
+          padding: 2rem 0;
+      }
+
+      .page-link {
+          width: 2rem;
+          height: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          margin: 0 0.25rem;
+      }
+
+      .page-link.active {
+          background-color: var(--primary);
+          color: white;
+      }
+
+      .page-link:not(.active):hover {
+          background-color: var(--secondary);
+      }
+
+      .table-wrapper {
+          overflow-x: auto;
+      }
+
+      .col-num {
+          width: 4rem;
+      }
+
+      .col-author, .col-date {
+          width: 8rem;
+      }
+
+      @media (max-width: 768px) {
+          .col-author, .col-date {
+              width: 6rem;
+          }
+      }
+  </style>
+</head>
+<body>
+<!-- 상단 알림 배너 -->
+<div class="top-banner">
+  <span>새롭게 선보이는 브런치 작가 맴버십을 구독해 보세요.</span>
+</div>
+
+<!-- 헤더 -->
+<header class="main-header">
+  <div class="container header-container">
+    <!-- 모바일 메뉴 버튼 -->
+    <button class="mobile-menu-button" id="menuOpenBtn" aria-label="메뉴 열기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    </button>
+
+    <!-- 블로그 로고 -->
+    <a href="index.html" class="logo">
+        <span class="brunch-title">
+          <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
+        </span>
+    </a>
+
+    <!-- 데스크탑 네비게이션 -->
+    <nav class="desktop-nav">
+      <a href="index.html" class="nav-link">메인 소개</a>
+      <a href="notice.html" class="nav-link">공지사항</a>
+      <a href="posts.html" class="nav-link">일반 게시글</a>
+      <a href="setting.html" class="nav-link">설정</a>
+    </nav>
+
+    <!-- 검색 버튼 -->
+    <button class="search-button" aria-label="검색">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- 모바일 메뉴 -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <span class="brunch-title">브런치스토리</span>
+    </a>
+    <button id="menuCloseBtn" aria-label="메뉴 닫기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="index.html" class="nav-link">메인 소개</a>
+    <a href="notice.html" class="nav-link">공지사항</a>
+    <a href="posts.html" class="nav-link">일반 게시글</a>
+    <a href="setting.html" class="nav-link">설정</a>
+  </nav>
+</div>
+
+<main>
+  <div class="container">
+    <h1 class="page-title" style="text-align: center">일반 게시글</h1>
+
+    <div class="table-wrapper">
+      <table class="posts-table">
+        <thead>
+        <tr>
+          <th class="col-num">번호</th>
+          <th>제목</th>
+          <th class="col-author">글쓴이</th>
+          <th class="col-date">등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>10</td>
+          <td><a href="post-detail.html?id=10" class="post-link">내향적인 게 죄는 아니잖아!</a></td>
+          <td>작가이름</td>
+          <td>2024-03-24</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><a href="post-detail.html?id=9" class="post-link">주목받고 있는 유일한 이야기들</a></td>
+          <td>에디터</td>
+          <td>2024-03-22</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><a href="post-detail.html?id=8" class="post-link">안녕? 산티아고 - 여행</a></td>
+          <td>여행자</td>
+          <td>2024-03-20</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><a href="post-detail.html?id=7" class="post-link">일상의 소소한 행복 찾기</a></td>
+          <td>행복이</td>
+          <td>2024-03-18</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><a href="post-detail.html?id=6" class="post-link">책 읽는 습관 만들기</a></td>
+          <td>독서광</td>
+          <td>2024-03-15</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><a href="post-detail.html?id=5" class="post-link">커피 한 잔의 여유</a></td>
+          <td>카페인</td>
+          <td>2024-03-12</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><a href="post-detail.html?id=4" class="post-link">영화 속 명대사 모음</a></td>
+          <td>영화광</td>
+          <td>2024-03-10</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><a href="post-detail.html?id=3" class="post-link">음악과 함께하는 아침</a></td>
+          <td>음악인</td>
+          <td>2024-03-08</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="post-detail.html?id=2" class="post-link">요리의 즐거움</a></td>
+          <td>요리사</td>
+          <td>2024-03-05</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><a href="post-detail.html?id=1" class="post-link">첫 번째 이야기</a></td>
+          <td>초보자</td>
+          <td>2024-03-01</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination">
+      <a href="posts.html?page=1" class="page-link active">1</a>
+      <a href="posts.html?page=2" class="page-link">2</a>
+      <a href="posts.html?page=3" class="page-link">3</a>
+      <a href="posts.html?page=4" class="page-link">4</a>
+      <a href="posts.html?page=5" class="page-link">5</a>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

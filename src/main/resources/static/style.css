@@ -1,0 +1,254 @@
+/* 기본 스타일 */
+:root {
+    --foreground: rgb(51, 51, 51);
+    --background: rgb(255, 255, 255);
+    --primary: rgb(26, 88, 74);
+    --secondary: rgb(240, 240, 240);
+    --accent: rgb(102, 153, 204);
+    --border-color: #e5e5e5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    color: var(--foreground);
+    background: var(--background);
+    letter-spacing: -0.02em;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* 브런치 스타일 타이포그래피 */
+.brunch-title {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.4;
+    color: #333;
+}
+
+.brunch-subtitle {
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #999;
+    line-height: 1.6;
+}
+
+.brunch-highlight {
+    background-color: rgba(173, 216, 255, 0.3);
+    padding: 0 2px;
+}
+
+/* 헤더 스타일 */
+.top-banner {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.main-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.desktop-nav {
+    display: none;
+}
+
+.nav-link {
+    margin: 0 1rem;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.mobile-menu-button,
+.search-button {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 모바일 메뉴 */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 50;
+    display: none;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-nav {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav-link {
+    padding: 0.5rem 0;
+    font-size: 1.125rem;
+}
+
+/* 메인 섹션 스타일 */
+.intro-section {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.main-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.main-subtitle {
+    font-size: 1.125rem;
+    color: #666;
+    max-width: 42rem;
+    margin: 0 auto 2rem;
+}
+
+.sub-subtitle {
+    color: #999;
+}
+
+/* 공지사항 슬라이더 */
+.notice-section {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0 3rem;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.notice-slider {
+    display: flex;
+    animation: slide 30s linear infinite;
+}
+
+.notice-slide {
+    display: flex;
+    min-width: 100%;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.notice-card {
+    flex: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: box-shadow 0.3s;
+}
+
+.notice-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.card-content {
+    color: #666;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #999;
+}
+
+.meta-divider {
+    margin: 0 0.5rem;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* 반응형 스타일 */
+@media (min-width: 768px) {
+    .mobile-menu-button {
+        display: none;
+    }
+
+    .desktop-nav {
+        display: flex;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+    }
+}
+

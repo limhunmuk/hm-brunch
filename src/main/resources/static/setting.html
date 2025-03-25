@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><!DOCTYPE html>
+    <html lang="ko">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설정 - 블로그 이름</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+      /* 설정 페이지 스타일 */
+      .page-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          margin-top: 2rem;
+      }
+
+      .settings-card {
+          max-width: 42rem;
+          margin: 0 auto;
+          background-color: white;
+          border-radius: 0.5rem;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          border: 1px solid var(--border-color);
+          padding: 1.5rem;
+      }
+
+      .settings-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin-bottom: 1.5rem;
+      }
+
+      .profile-image-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 2rem;
+      }
+
+      .profile-image {
+          width: 8rem;
+          height: 8rem;
+          border-radius: 50%;
+          overflow: hidden;
+          background-color: var(--secondary);
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+      }
+
+      .profile-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+
+      .profile-image-button {
+          color: var(--primary);
+          font-size: 0.875rem;
+      }
+
+      .form-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          margin-bottom: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+          .form-grid {
+              grid-template-columns: 1fr 1fr;
+          }
+      }
+
+      .form-group {
+          margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+          display: block;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #555;
+          margin-bottom: 0.25rem;
+      }
+
+      .form-input {
+          width: 100%;
+          padding: 0.5rem 0.75rem;
+          border: 1px solid var(--border-color);
+          border-radius: 0.25rem;
+          font-family: inherit;
+          font-size: 1rem;
+      }
+
+      .form-input:focus {
+          outline: none;
+          border-color: var(--primary);
+          box-shadow: 0 0 0 2px rgba(26, 88, 74, 0.2);
+      }
+
+      .form-actions {
+          display: flex;
+          justify-content: flex-end;
+      }
+
+      .save-button {
+          background-color: var(--primary);
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 0.25rem;
+          font-weight: 500;
+          transition: background-color 0.2s;
+      }
+
+      .save-button:hover {
+          background-color: rgba(26, 88, 74, 0.9);
+      }
+
+      .camera-icon {
+          color: #aaa;
+      }
+  </style>
+</head>
+<body>
+<!-- 상단 알림 배너 -->
+<div class="top-banner">
+  <span>새롭게 선보이는 브런치 작가 맴버십을 구독해 보세요.</span>
+</div>
+
+<!-- 헤더 -->
+<header class="main-header">
+  <div class="container header-container">
+    <!-- 모바일 메뉴 버튼 -->
+    <button class="mobile-menu-button" id="menuOpenBtn" aria-label="메뉴 열기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    </button>
+
+    <!-- 블로그 로고 -->
+    <a href="index.html" class="logo">
+        <span class="brunch-title">
+          <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
+        </span>
+    </a>
+
+    <!-- 데스크탑 네비게이션 -->
+    <nav class="desktop-nav">
+      <a href="index.html" class="nav-link">메인 소개</a>
+      <a href="notice.html" class="nav-link">공지사항</a>
+      <a href="posts.html" class="nav-link">일반 게시글</a>
+      <a href="setting.html" class="nav-link">설정</a>
+    </nav>
+
+    <!-- 검색 버튼 -->
+    <button class="search-button" aria-label="검색">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- 모바일 메뉴 -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <span class="brunch-title">브런치스토리</span>
+    </a>
+    <button id="menuCloseBtn" aria-label="메뉴 닫기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="index.html" class="nav-link">메인 소개</a>
+    <a href="notice.html" class="nav-link">공지사항</a>
+    <a href="posts.html" class="nav-link">일반 게시글</a>
+    <a href="setting.html" class="nav-link">설정</a>
+  </nav>
+</div>
+
+<main>
+  <div class="container">
+    <h1 class="page-title" style="text-align: center">설정</h1>
+
+    <div class="settings-card">
+      <h2 class="settings-title">내 정보 관리</h2>
+
+      <!-- 프로필 이미지 -->
+      <div class="profile-image-container">
+        <div class="profile-image" id="profileImageContainer">
+          <div class="camera-icon" id="cameraIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+          </div>
+          <img id="profileImagePreview" style="display: none;" alt="프로필 이미지">
+        </div>
+        <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+        <button class="profile-image-button" id="profileImageButton">
+          프로필 사진 등록
+        </button>
+      </div>
+
+      <!-- 개인정보 폼 -->
+      <form id="profileForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" id="name" class="form-input" placeholder="이름을 입력하세요">
+          </div>
+
+          <div class="form-group">
+            <label for="nickname" class="form-label">닉네임</label>
+            <input type="text" id="nickname" class="form-input" placeholder="닉네임을 입력하세요">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone" class="form-label">휴대번호</label>
+          <input type="tel" id="phone" class="form-input" placeholder="휴대번호를 입력하세요 (예: 010-1234-5678)">
+        </div>
+
+        <div class="form-group">
+          <label for="address" class="form-label">주소</label>
+          <input type="text" id="address" class="form-input" placeholder="주소를 입력하세요">
+        </div>
+
+        <div class="form-group">
+          <label for="addressDetail" class="form-label">상세주소</label>
+          <input type="text" id="addressDetail" class="form-input" placeholder="상세주소를 입력하세요">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="save-button">
+            저장하기
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+    // 프로필 이미지 업로드 기능
+    const profileImageContainer = document.getElementById('profileImageContainer');
+    const profileImageInput = document.getElementById('profileImageInput');
+    const profileImagePreview = document.getElementById('profileImagePreview');
+    const profileImageButton = document.getElementById('profileImageButton');
+    const cameraIcon = document.getElementById('cameraIcon');
+
+    // 이미지 컨테이너 클릭 시 파일 선택 창 열기
+    profileImageContainer.addEventListener('click', () => {
+        profileImageInput.click();
+    });
+
+    // 버튼 클릭 시 파일 선택 창 열기
+    profileImageButton.addEventListener('click', () => {
+        profileImageInput.click();
+    });
+
+    // 이미지 선택 시 미리보기 표시
+    profileImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profileImagePreview.src = e.target.result;
+                profileImagePreview.style.display = 'block';
+                cameraIcon.style.display = 'none';
+                profileImageButton.textContent = '프로필 사진 변경';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 폼 제출 처리
+    const profileForm = document.getElementById('profileForm');
+    profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // 여기에 폼 데이터 처리 로직 추가
+        alert('프로필 정보가 저장되었습니다.');
+    });
+</script>
+</body>
+</html>
+
+</title>
+</head>
+<body>
+
+</body>
+</html>
