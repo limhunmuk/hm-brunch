@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 상세 - 블로그 이름</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+      /* 게시글 상세 페이지 스타일 */
+      .page-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          margin-top: 2rem;
+      }
+
+      .post-container {
+          max-width: 800px;
+          margin: 0 auto;
+      }
+
+      .post-header {
+          margin-bottom: 2rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--border-color);
+      }
+
+      .post-title {
+          font-size: 1.75rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+          line-height: 1.4;
+          letter-spacing: -0.03em;
+      }
+
+      .post-meta {
+          display: flex;
+          align-items: center;
+          color: #777;
+          font-size: 0.875rem;
+      }
+
+      .meta-divider {
+          margin: 0 0.5rem;
+      }
+
+      .post-content {
+          font-size: 1rem;
+          line-height: 1.8;
+          color: #333;
+          margin-bottom: 3rem;
+      }
+
+      .post-content p {
+          margin-bottom: 1.5rem;
+      }
+
+      .post-actions {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 2rem;
+          padding-top: 1rem;
+          border-top: 1px solid var(--border-color);
+      }
+
+      .post-button {
+          padding: 0.5rem 1rem;
+          border-radius: 0.25rem;
+          font-size: 0.875rem;
+          margin-left: 0.5rem;
+      }
+
+      .edit-button {
+          background-color: var(--secondary);
+          color: #555;
+      }
+
+      .list-button {
+          border: 1px solid var(--border-color);
+      }
+
+      /* 댓글 스타일 */
+      .comments-section {
+          margin-top: 3rem;
+          border-top: 1px solid var(--border-color);
+          padding-top: 2rem;
+      }
+
+      .comments-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+      }
+
+      .comments-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+      }
+
+      .comments-count {
+          color: var(--primary);
+          margin-left: 0.5rem;
+      }
+
+      .comments-toggle {
+          color: var(--primary);
+          font-size: 0.875rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+      }
+
+      .comments-toggle svg {
+          margin-left: 0.25rem;
+          transition: transform 0.2s;
+      }
+
+      .comments-toggle.open svg {
+          transform: rotate(180deg);
+      }
+
+      .comments-list {
+          margin-bottom: 2rem;
+          display: none;
+      }
+
+      .comments-list.open {
+          display: block;
+      }
+
+      .comment {
+          padding: 1rem 0;
+          border-bottom: 1px solid var(--border-color);
+      }
+
+      .comment-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+      }
+
+      .comment-author {
+          font-weight: 500;
+      }
+
+      .comment-date {
+          font-size: 0.75rem;
+          color: #999;
+      }
+
+      .comment-content {
+          margin-bottom: 0.5rem;
+          line-height: 1.6;
+      }
+
+      .comment-actions {
+          display: flex;
+          font-size: 0.75rem;
+      }
+
+      .comment-action {
+          color: #777;
+          margin-right: 0.75rem;
+          cursor: pointer;
+      }
+
+      .comment-action:hover {
+          color: var(--primary);
+      }
+
+      .comment-replies {
+          margin-left: 2rem;
+          margin-top: 1rem;
+          border-left: 2px solid var(--secondary);
+          padding-left: 1rem;
+      }
+
+      .reply {
+          padding: 0.75rem 0;
+      }
+
+      .reply:not(:last-child) {
+          border-bottom: 1px solid var(--border-color);
+      }
+
+      .comment-form {
+          margin-top: 1.5rem;
+      }
+
+      .comment-textarea {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid var(--border-color);
+          border-radius: 0.25rem;
+          font-family: inherit;
+          font-size: 0.875rem;
+          min-height: 100px;
+          resize: vertical;
+      }
+
+      .comment-textarea:focus {
+          outline: none;
+          border-color: var(--primary);
+          box-shadow: 0 0 0 2px rgba(26, 88, 74, 0.2);
+      }
+
+      .comment-submit {
+          margin-top: 0.5rem;
+          margin-left: 0.5rem;
+          padding: 0.5rem 1rem;
+          background-color: var(--primary);
+          color: white;
+          border-radius: 0.25rem;
+          font-size: 0.875rem;
+          float: right;
+      }
+
+      .reply-form {
+          margin-top: 1rem;
+          display: none;
+      }
+
+      .reply-form.open {
+          display: block;
+      }
+
+      .edit-form {
+          margin-top: 0.5rem;
+          display: none;
+      }
+
+      .edit-form.open {
+          display: block;
+      }
+  </style>
+</head>
+<body>
+<!-- 상단 알림 배너 -->
+<div class="top-banner">
+  <span>새롭게 선보이는 브런치 작가 맴버십을 구독해 보세요.</span>
+</div>
+
+<!-- 헤더 -->
+<header class="main-header">
+  <div class="container header-container">
+    <!-- 모바일 메뉴 버튼 -->
+    <button class="mobile-menu-button" id="menuOpenBtn" aria-label="메뉴 열기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    </button>
+
+    <!-- 블로그 로고 -->
+    <a href="index.html" class="logo">
+        <span class="brunch-title">
+          <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
+        </span>
+    </a>
+
+    <!-- 데스크탑 네비게이션 -->
+    <nav class="desktop-nav">
+      <a href="intro.html" class="nav-link">메인 소개</a>
+      <a href="notice.html" class="nav-link">공지사항</a>
+      <a href="posts.html" class="nav-link">일반 게시글</a>
+      <a href="settings.html" class="nav-link">설정</a>
+    </nav>
+
+    <!-- 검색 버튼 -->
+    <button class="search-button" aria-label="검색">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- 모바일 메뉴 -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <span class="brunch-title">브런치스토리</span>
+    </a>
+    <button id="menuCloseBtn" aria-label="메뉴 닫기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="intro.html" class="mobile-nav-link">메인 소개</a>
+    <a href="notice.html" class="mobile-nav-link">공지사항</a>
+    <a href="posts.html" class="mobile-nav-link">일반 게시글</a>
+    <a href="settings.html" class="mobile-nav-link">설정</a>
+  </nav>
+</div>
+
+<main>
+  <div class="container">
+    <div class="post-container">
+      <h1 class="page-title">일반 게시글</h1>
+
+      <article class="post-detail">
+        <header class="post-header">
+          <h2 class="post-title">내향적인 게 죄는 아니잖아!</h2>
+          <div class="post-meta">
+            <span class="post-author">작가이름</span>
+            <span class="meta-divider">•</span>
+            <span class="post-date">2024-03-24</span>
+          </div>
+        </header>
+
+        <div class="post-content">
+          <p>사람들은 종종 내향적인 성격을 단점으로 여기곤 합니다. 하지만 내향적인 성격이 정말 단점일까요?</p>
+          <p>내향적인 사람들은 깊이 생각하고, 관찰력이 뛰어나며, 집중력이 좋습니다. 이런 특성은 창의적인 작업이나 분석적인 일을 할 때 큰 장점이 됩니다.</p>
+          <p>물론 사회적인 상황에서는 외향적인 사람들보다 에너지 소모가 크고, 때로는 불편함을 느낄 수 있습니다. 하지만 그렇다고 해서 내향적인 성격이 고쳐야 할 문제는 아닙니다.</p>
+          <p>중요한 것은 자신의 성격을 이해하고 그에 맞게 생활하는 것입니다. 내향적인 사람들은 혼자만의 시간을 통해 에너지를 충전하고, 소규모 모임에서 더 편안함을 느낍니다.</p>
+          <p>내향적인 성격도 외향적인 성격만큼 가치 있고 중요합니다. 다양한 성격이 모여 세상은 더 풍요로워지니까요.</p>
+          <p>당신이 내향적이라면, 그것을 부끄러워하지 마세요. 당신만의 방식으로 세상과 소통하고, 당신만의 속도로 성장해 나가면 됩니다.</p>
+          <p>내향적인 게 죄는 아니니까요.</p>
+        </div>
+
+        <div class="post-actions">
+          <a href="posts.html" class="post-button list-button">목록</a>
+          <a href="post-edit.html?id=10" class="post-button edit-button">수정</a>
+        </div>
+      </article>
+
+      <!-- 댓글 섹션 -->
+      <section class="comments-section">
+        <div class="comments-header">
+          <h3 class="comments-title">댓글 <span class="comments-count">5</span></h3>
+          <div class="comments-toggle" id="commentsToggle">
+            펼쳐보기
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="comments-list" id="commentsList">
+          <!-- 댓글 1 -->
+          <div class="comment" id="comment-1">
+            <div class="comment-header">
+              <span class="comment-author">독자A</span>
+              <span class="comment-date">2024-03-25</span>
+            </div>
+            <div class="comment-content">
+              정말 공감되는 글이에요. 저도 내향적인 성격인데, 종종 사회적으로 불편함을 느낄 때가 있어요.
+            </div>
+            <div class="comment-actions">
+              <span class="comment-action reply-toggle" data-comment-id="1">답글</span>
+              <span class="comment-action edit-toggle" data-comment-id="1">수정</span>
+              <span class="comment-action delete-comment" data-comment-id="1">삭제</span>
+            </div>
+
+            <!-- 댓글 수정 폼 -->
+            <div class="edit-form" id="edit-form-1">
+              <textarea class="comment-textarea" id="edit-textarea-1">정말 공감되는 글이에요. 저도 내향적인 성격인데, 종종 사회적으로 불편함을 느낄 때가 있어요.</textarea>
+              <button class="comment-submit edit-submit" data-comment-id="1">수정</button>
+              <button class="comment-submit cancel-edit" data-comment-id="1">취소</button>
+              <div style="clear: both;"></div>
+            </div>
+
+            <!-- 답글 폼 -->
+            <div class="reply-form" id="reply-form-1">
+              <textarea class="comment-textarea" placeholder="답글을 입력하세요..."></textarea>
+              <button class="comment-submit reply-submit" data-comment-id="1">등록</button>
+              <button class="comment-submit cancel-reply" data-comment-id="1">취소</button>
+              <div style="clear: both;"></div>
+            </div>
+
+            <!-- 답글 목록 -->
+            <div class="comment-replies">
+              <div class="reply" id="reply-1-1">
+                <div class="comment-header">
+                  <span class="comment-author">작가이름</span>
+                  <span class="comment-date">2024-03-25</span>
+                </div>
+                <div class="comment-content">
+                  공감해 주셔서 감사합니다. 내향적인 성격도 충분히 가치 있다고 생각해요.
+                </div>
+                <div class="comment-actions">
+                  <span class="comment-action edit-toggle" data-reply-id="1-1">수정</span>
+                  <span class="comment-action delete-reply" data-reply-id="1-1">삭제</span>
+                </div>
+
+                <!-- 답글 수정 폼 -->
+                <div class="edit-form" id="edit-reply-form-1-1">
+                  <textarea class="comment-textarea" id="edit-reply-textarea-1-1">공감해 주셔서 감사합니다. 내향적인 성격도 충분히 가치 있다고 생각해요.</textarea>
+                  <button class="comment-submit edit-reply-submit" data-reply-id="1-1">수정</button>
+                  <button class="comment-submit cancel-edit-reply" data-reply-id="1-1">취소</button>
+                  <div style="clear: both;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 댓글 2 -->
+          <div class="comment" id="comment-2">
+            <div class="comment-header">
+              <span class="comment-author">독자B</span>
+              <span class="comment-date">2024-03-24</span>
+            </div>
+            <div class="comment-content">
+              이 글을 읽고 나니 제 자신을 더 이해하게 되었어요. 내향적인 성격을 가진 사람들을 위한 글이 더 많아졌으면 좋겠네요.
+            </div>
+            <div class="comment-actions">
+              <span class="comment-action reply-toggle" data-comment-id="2">답글</span>
+              <span class="comment-action edit-toggle" data-comment-id="2">수정</span>
+              <span class="comment-action delete-comment" data-comment-id="2">삭제</span>
+            </div>
+
+            <!-- 댓글 수정 폼 -->
+            <div class="edit-form" id="edit-form-2">
+              <textarea class="comment-textarea" id="edit-textarea-2">이 글을 읽고 나니 제 자신을 더 이해하게 되었어요. 내향적인 성격을 가진 사람들을 위한 글이 더 많아졌으면 좋겠네요.</textarea>
+              <button class="comment-submit edit-submit" data-comment-id="2">수정</button>
+              <button class="comment-submit cancel-edit" data-comment-id="2">취소</button>
+              <div style="clear: both;"></div>
+            </div>
+
+            <!-- 답글 폼 -->
+            <div class="reply-form" id="reply-form-2">
+              <textarea class="comment-textarea" placeholder="답글을 입력하세요..."></textarea>
+              <button class="comment-submit reply-submit" data-comment-id="2">등록</button>
+              <button class="comment-submit cancel-reply" data-comment-id="2">취소</button>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+
+          <!-- 댓글 3 -->
+          <div class="comment" id="comment-3">
+            <div class="comment-header">
+              <span class="comment-author">독자C</span>
+              <span class="comment-date">2024-03-23</span>
+            </div>
+            <div class="comment-content">
+              외향적인 사람들이 더 성공한다는 편견이 있는데, 이런 글이 그런 편견을 깨는 데 도움이 될 것 같아요.
+            </div>
+            <div class="comment-actions">
+              <span class="comment-action reply-toggle" data-comment-id="3">답글</span>
+              <span class="comment-action edit-toggle" data-comment-id="3">수정</span>
+              <span class="comment-action delete-comment" data-comment-id="3">삭제</span>
+            </div>
+
+            <!-- 댓글 수정 폼 -->
+            <div class="edit-form" id="edit-form-3">
+              <textarea class="comment-textarea" id="edit-textarea-3">외향적인 사람들이 더 성공한다는 편견이 있는데, 이런 글이 그런 편견을 깨는 데 도움이 될 것 같아요.</textarea>
+              <button class="comment-submit edit-submit" data-comment-id="3">수정</button>
+              <button class="comment-submit cancel-edit" data-comment-id="3">취소</button>
+              <div style="clear: both;"></div>
+            </div>
+
+            <!-- 답글 폼 -->
+            <div class="reply-form" id="reply-form-3">
+              <textarea class="comment-textarea" placeholder="답글을 입력하세요..."></textarea>
+              <button class="comment-submit reply-submit" data-comment-id="3">등록</button>
+              <button class="comment-submit cancel-reply" data-comment-id="3">취소</button>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 새 댓글 작성 폼 -->
+        <form class="comment-form" id="newCommentForm">
+          <textarea class="comment-textarea" placeholder="댓글을 입력하세요..." id="newCommentText"></textarea>
+          <button type="submit" class="comment-submit">등록</button>
+          <div style="clear: both;"></div>
+        </form>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+    // 댓글 토글 기능
+    const commentsToggle = document.getElementById('commentsToggle');
+    const commentsList = document.getElementById('commentsList');
+
+    commentsToggle.addEventListener('click', () => {
+        commentsList.classList.toggle('open');
+        commentsToggle.classList.toggle('open');
+
+        if (commentsList.classList.contains('open')) {
+            commentsToggle.textContent = '접기 ';
+        } else {
+            commentsToggle.textContent = '펼쳐보기 ';
+        }
+
+        // SVG 아이콘 다시 추가
+        commentsToggle.innerHTML += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    });
+
+    // 답글 토글 기능
+    const replyToggles = document.querySelectorAll('.reply-toggle');
+    replyToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const commentId = toggle.getAttribute('data-comment-id');
+            const replyForm = document.getElementById(`reply-form-${commentId}`);
+            replyForm.classList.toggle('open');
+        });
+    });
+
+    // 답글 취소 기능
+    const cancelReplies = document.querySelectorAll('.cancel-reply');
+    cancelReplies.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const commentId = button.getAttribute('data-comment-id');
+            const replyForm = document.getElementById(`reply-form-${commentId}`);
+            replyForm.classList.remove('open');
+            replyForm.querySelector('textarea').value = '';
+        });
+    });
+
+    // 댓글 수정 토글 기능
+    const editToggles = document.querySelectorAll('.edit-toggle');
+    editToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            if (toggle.hasAttribute('data-comment-id')) {
+                const commentId = toggle.getAttribute('data-comment-id');
+                const editForm = document.getElementById(`edit-form-${commentId}`);
+                editForm.classList.toggle('open');
+            } else if (toggle.hasAttribute('data-reply-id')) {
+                const replyId = toggle.getAttribute('data-reply-id');
+                const editForm = document.getElementById(`edit-reply-form-${replyId}`);
+                editForm.classList.toggle('open');
+            }
+        });
+    });
+
+    // 댓글 수정 취소 기능
+    const cancelEdits = document.querySelectorAll('.cancel-edit, .cancel-edit-reply');
+    cancelEdits.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            let editForm;
+
+            if (button.classList.contains('cancel-edit')) {
+                const commentId = button.getAttribute('data-comment-id');
+                editForm = document.getElementById(`edit-form-${commentId}`);
+            } else {
+                const replyId = button.getAttribute('data-reply-id');
+                editForm = document.getElementById(`edit-reply-form-${replyId}`);
+            }
+
+            editForm.classList.remove('open');
+        });
+    });
+
+    // 새 댓글 등록 기능
+    const newCommentForm = document.getElementById('newCommentForm');
+    newCommentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const commentText = document.getElementById('newCommentText').value;
+
+        if (commentText.trim() === '') {
+            alert('댓글 내용을 입력해주세요.');
+            return;
+        }
+
+        // 여기에 댓글 등록 로직 추가
+        alert('댓글이 등록되었습니다.');
+        document.getElementById('newCommentText').value = '';
+
+        // 댓글 수 업데이트
+        const commentsCount = document.querySelector('.comments-count');
+        commentsCount.textContent = parseInt(commentsCount.textContent) + 1;
+    });
+
+    // 댓글 삭제 기능
+    const deleteComments = document.querySelectorAll('.delete-comment, .delete-reply');
+    deleteComments.forEach(button => {
+        button.addEventListener('click', () => {
+            if (confirm('정말 삭제하시겠습니까?')) {
+                // 여기에 댓글 삭제 로직 추가
+                alert('삭제되었습니다.');
+
+                // 댓글 수 업데이트 (댓글 삭제 시)
+                if (button.classList.contains('delete-comment')) {
+                    const commentsCount = document.querySelector('.comments-count');
+                    commentsCount.textContent = parseInt(commentsCount.textContent) - 1;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

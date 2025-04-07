@@ -1,0 +1,9 @@
+### 로그인
+# @no-redirect
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "loginId": "admin",
+  "password": "1234"
+}

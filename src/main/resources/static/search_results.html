@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>검색 결과 - 블로그 이름</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+      /* 검색 결과 페이지 스타일 */
+      .search-results-container {
+          max-width: 800px;
+          margin: 2rem auto;
+      }
+
+      .search-header {
+          margin-bottom: 2rem;
+      }
+
+      .search-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+      }
+
+      .search-info {
+          color: #666;
+          font-size: 0.875rem;
+      }
+
+      .search-highlight {
+          background-color: rgba(26, 88, 74, 0.1);
+          padding: 0 2px;
+          font-weight: 500;
+      }
+
+      .search-result-item {
+          margin-bottom: 2rem;
+          padding-bottom: 2rem;
+          border-bottom: 1px solid var(--border-color);
+      }
+
+      .search-result-item:last-child {
+          border-bottom: none;
+      }
+
+      .result-title {
+          font-size: 1.25rem;
+          font-weight: 500;
+          margin-bottom: 0.5rem;
+          color: var(--primary);
+      }
+
+      .result-meta {
+          display: flex;
+          align-items: center;
+          font-size: 0.875rem;
+          color: #999;
+          margin-bottom: 0.75rem;
+      }
+
+      .result-excerpt {
+          color: #666;
+          margin-bottom: 0.75rem;
+          line-height: 1.6;
+      }
+
+      .result-category {
+          display: inline-block;
+          padding: 0.25rem 0.5rem;
+          background-color: var(--secondary);
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          color: #666;
+          margin-right: 0.5rem;
+      }
+
+      .no-results {
+          text-align: center;
+          padding: 3rem 0;
+          color: #666;
+      }
+
+      .no-results-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+          color: #ccc;
+      }
+
+      .search-pagination {
+          display: flex;
+          justify-content: center;
+          margin-top: 3rem;
+      }
+
+      .pagination-button {
+          padding: 0.5rem 1rem;
+          margin: 0 0.25rem;
+          border: 1px solid var(--border-color);
+          border-radius: 0.25rem;
+          background-color: white;
+          color: #666;
+          cursor: pointer;
+          transition: all 0.2s;
+      }
+
+      .pagination-button:hover {
+          background-color: var(--secondary);
+      }
+
+      .pagination-button.active {
+          background-color: var(--primary);
+          color: white;
+          border-color: var(--primary);
+      }
+
+      .pagination-ellipsis {
+          padding: 0.5rem 0.75rem;
+          color: #999;
+      }
+  </style>
+</head>
+<body>
+<!-- 상단 알림 배너 -->
+<div class="top-banner">
+  <span>새롭게 선보이는 브런치 작가 맴버십을 구독해 보세요.</span>
+</div>
+
+<!-- 헤더 -->
+<header class="main-header">
+  <div class="container header-container">
+    <!-- 모바일 메뉴 버튼 -->
+    <button class="mobile-menu-button" id="menuOpenBtn" aria-label="메뉴 열기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    </button>
+
+    <!-- 블로그 로고 -->
+    <a href="index.html" class="logo">
+        <span class="brunch-title">
+          <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
+        </span>
+    </a>
+
+    <!-- 데스크탑 네비게이션 -->
+    <nav class="desktop-nav">
+      <a href="intro.html" class="nav-link">메인 소개</a>
+      <a href="notice.html" class="nav-link">공지사항</a>
+      <a href="posts.html" class="nav-link">일반 게시글</a>
+      <a href="settings.html" class="nav-link">설정</a>
+    </nav>
+
+    <!-- 사용자 메뉴 -->
+    <div class="user-menu">
+      <a href="login.html" class="login-button" id="loginButton">로그인</a>
+      <div class="user-profile" id="userProfile" style="display: none;">
+        <img src="/placeholder.svg?height=32&width=32" alt="프로필 이미지" class="profile-image">
+        <div class="user-dropdown">
+          <a href="settings.html">내 정보</a>
+          <a href="#" id="logoutButton">로그아웃</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 검색 버튼 및 검색창 -->
+    <div class="search-container">
+      <button class="search-button" id="searchToggleBtn" aria-label="검색">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <div class="search-box" id="searchBox">
+        <form id="searchForm" action="search-results.html" method="get">
+          <input type="text" name="query" id="searchInput" placeholder="검색어를 입력하세요" aria-label="검색어 입력">
+          <button type="submit" class="search-submit" aria-label="검색 실행">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 모바일 메뉴 -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <span class="brunch-title">브런치스토리</span>
+    </a>
+    <button id="menuCloseBtn" aria-label="메뉴 닫기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="intro.html" class="mobile-nav-link">메인 소개</a>
+    <a href="notice.html" class="mobile-nav-link">공지사항</a>
+    <a href="posts.html" class="mobile-nav-link">일반 게시글</a>
+    <a href="settings.html" class="mobile-nav-link">설정</a>
+    <div class="mobile-user-menu">
+      <a href="login.html" class="mobile-nav-link" id="mobileLoginButton">로그인</a>
+      <a href="#" class="mobile-nav-link" id="mobileLogoutButton" style="display: none;">로그아웃</a>
+    </div>
+  </nav>
+</div>
+
+<main>
+  <div class="container">
+    <div class="search-results-container">
+      <div class="search-header">
+        <h1 class="search-title">검색 결과</h1>
+        <p class="search-info"><span id="searchQuery" class="search-highlight"></span>에 대한 검색 결과 <span id="resultCount">0</span>건</p>
+      </div>
+
+      <div id="searchResults">
+        <!-- 검색 결과가 여기에 동적으로 추가됩니다 -->
+      </div>
+
+      <div class="search-pagination" id="searchPagination">
+        <!-- 페이지네이션이 여기에 동적으로 추가됩니다 -->
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+    // 검색 쿼리 파라미터 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('query');
+
+    // 검색어 표시
+    const searchQueryElement = document.getElementById('searchQuery');
+    if (searchQueryElement && searchQuery) {
+        searchQueryElement.textContent = searchQuery;
+    }
+
+    // 샘플 검색 결과 데이터 (실제로는 서버에서 가져와야 함)
+    const sampleResults = [
+        {
+            id: 1,
+            title: "내향적인 게 죄는 아니잖아!",
+            author: "김작가",
+            date: "2024.03.20",
+            category: "에세이",
+            excerpt: "사람들은 종종 내향적인 성격을 단점으로 여기곤 합니다. 하지만 내향적인 성격이 정말 단점일까요? 내향적인 사람들은 깊이 생각하고, 관찰력이 뛰어나며, 집중력이 좋습니다.",
+            url: "post-detail.html?id=10"
+        },
+        {
+            id: 2,
+            title: "아침 루틴의 중요성",
+            author: "건강지킴이",
+            date: "2024.03.15",
+            category: "라이프스타일",
+            excerpt: "아침에 일어나서 처음 1시간 동안 무엇을 하느냐가 하루의 성패를 좌우합니다. 효과적인 아침 루틴을 만들어 하루를 생산적으로 시작하는 방법을 알아봅시다.",
+            url: "post-detail.html?id=9"
+        },
+        {
+            id: 3,
+            title: "디지털 디톡스의 시대",
+            author: "테크놀로지스트",
+            date: "2024.03.10",
+            category: "테크",
+            excerpt: "현대인들은 하루 중 대부분의 시간을 스마트폰과 컴퓨터 앞에서 보냅니다. 디지털 기기로부터 잠시 벗어나 마음의 여유를 찾는 방법에 대해 이야기해봅시다.",
+            url: "post-detail.html?id=8"
+        },
+        {
+            id: 4,
+            title: "여행의 의미",
+            author: "세계여행가",
+            date: "2024.03.05",
+            category: "여행",
+            excerpt: "여행은 단순한 관광이 아닌 자신을 발견하는 과정입니다. 낯선 곳에서의 경험이 우리의 시야를 넓히고 삶의 방향을 바꾸는 계기가 될 수 있습니다.",
+            url: "post-detail.html?id=7"
+        },
+        {
+            id: 5,
+            title: "미니멀리즘의 실천",
+            author: "심플라이프",
+            date: "2024.02.28",
+            category: "라이프스타일",
+            excerpt: "물건을 줄이고 단순하게 살아가는 미니멀 라이프스타일. 단순히 물건을 버리는 것이 아닌 삶의 가치를 재정립하는 과정입니다.",
+            url: "post-detail.html?id=6"
+        }
+    ];
+
+    // 검색 결과 표시 함수
+    function displaySearchResults(results, query) {
+        const resultsContainer = document.getElementById('searchResults');
+        const resultCountElement = document.getElementById('resultCount');
+
+        if (!resultsContainer || !resultCountElement) return;
+
+        // 검색 결과 개수 업데이트
+        resultCountElement.textContent = results.length;
+
+        // 결과 컨테이너 초기화
+        resultsContainer.innerHTML = '';
+
+        if (results.length === 0) {
+            // 검색 결과가 없는 경우
+            resultsContainer.innerHTML = `
+          <div class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <h2>검색 결과가 없습니다</h2>
+            <p>다른 검색어로 다시 시도해보세요.</p>
+          </div>
+        `;
+            return;
+        }
+
+        // 검색 결과 표시
+        results.forEach(result => {
+            // 검색어 하이라이트 처리
+            let highlightedTitle = result.title;
+            let highlightedExcerpt = result.excerpt;
+
+            if (query) {
+                const regex = new RegExp(query, 'gi');
+                highlightedTitle = result.title.replace(regex, match => `<span class="search-highlight">${match}</span>`);
+                highlightedExcerpt = result.excerpt.replace(regex, match => `<span class="search-highlight">${match}</span>`);
+            }
+
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+          <a href="${result.url}" class="result-title">${highlightedTitle}</a>
+          <div class="result-meta">
+            <span>${result.author}</span>
+            <span class="meta-divider">•</span>
+            <span>${result.date}</span>
+          </div>
+          <p class="result-excerpt">${highlightedExcerpt}</p>
+          <div>
+            <span class="result-category">${result.category}</span>
+          </div>
+        `;
+
+            resultsContainer.appendChild(resultItem);
+        });
+
+        // 페이지네이션 생성 (샘플)
+        const paginationContainer = document.getElementById('searchPagination');
+        if (paginationContainer) {
+            paginationContainer.innerHTML = `
+          <button class="pagination-button active">1</button>
+          <button class="pagination-button">2</button>
+          <button class="pagination-button">3</button>
+          <span class="pagination-ellipsis">...</span>
+          <button class="pagination-button">10</button>
+        `;
+        }
+    }
+
+    // 검색 실행
+    if (searchQuery) {
+        // 실제로는 서버에 검색 요청을 보내야 함
+        // 여기서는 샘플 데이터로 필터링
+        const filteredResults = sampleResults.filter(result => {
+            return result.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                result.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+        });
+
+        displaySearchResults(filteredResults, searchQuery);
+    } else {
+        // 검색어가 없는 경우 전체 결과 표시
+        displaySearchResults(sampleResults, '');
+    }
+</script>
+</body>
+</html>

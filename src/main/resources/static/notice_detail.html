@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 상세 - 블로그 이름</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+      /* 공지사항 상세 페이지 스타일 */
+      .page-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          margin-top: 2rem;
+      }
+
+      .post-container {
+          max-width: 800px;
+          margin: 0 auto;
+      }
+
+      .post-header {
+          margin-bottom: 2rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--border-color);
+      }
+
+      .post-title {
+          font-size: 1.75rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+          line-height: 1.4;
+          letter-spacing: -0.03em;
+      }
+
+      .post-meta {
+          display: flex;
+          align-items: center;
+          color: #777;
+          font-size: 0.875rem;
+      }
+
+      .meta-divider {
+          margin: 0 0.5rem;
+      }
+
+      .post-content {
+          font-size: 1rem;
+          line-height: 1.8;
+          color: #333;
+          margin-bottom: 3rem;
+      }
+
+      .post-content p {
+          margin-bottom: 1.5rem;
+      }
+
+      .post-actions {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 2rem;
+          padding-top: 1rem;
+          border-top: 1px solid var(--border-color);
+      }
+
+      .post-button {
+          padding: 0.5rem 1rem;
+          border-radius: 0.25rem;
+          font-size: 0.875rem;
+          margin-left: 0.5rem;
+      }
+
+      .edit-button {
+          background-color: var(--secondary);
+          color: #555;
+      }
+
+      .list-button {
+          border: 1px solid var(--border-color);
+      }
+  </style>
+</head>
+<body>
+<!-- 상단 알림 배너 -->
+<div class="top-banner">
+  <span>새롭게 선보이는 브런치 작가 맴버십을 구독해 보세요.</span>
+</div>
+
+<!-- 헤더 -->
+<header class="main-header">
+  <div class="container header-container">
+    <!-- 모바일 메뉴 버튼 -->
+    <button class="mobile-menu-button" id="menuOpenBtn" aria-label="메뉴 열기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    </button>
+
+    <!-- 블로그 로고 -->
+    <a href="index.html" class="logo">
+        <span class="brunch-title">
+          <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
+        </span>
+    </a>
+
+    <!-- 데스크탑 네비게이션 -->
+    <nav class="desktop-nav">
+      <a href="intro.html" class="nav-link">메인 소개</a>
+      <a href="notice.html" class="nav-link">공지사항</a>
+      <a href="posts.html" class="nav-link">일반 게시글</a>
+      <a href="settings.html" class="nav-link">설정</a>
+    </nav>
+
+    <!-- 검색 버튼 -->
+    <button class="search-button" aria-label="검색">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- 모바일 메뉴 -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <span class="brunch-title">브런치스토리</span>
+    </a>
+    <button id="menuCloseBtn" aria-label="메뉴 닫기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="intro.html" class="mobile-nav-link">메인 소개</a>
+    <a href="notice.html" class="mobile-nav-link">공지사항</a>
+    <a href="posts.html" class="mobile-nav-link">일반 게시글</a>
+    <a href="settings.html" class="mobile-nav-link">설정</a>
+  </nav>
+</div>
+
+<main>
+  <div class="container">
+    <div class="post-container">
+      <h1 class="page-title">공지사항</h1>
+
+      <article class="post-detail">
+        <header class="post-header">
+          <h2 class="post-title">사이트 개편 안내</h2>
+          <div class="post-meta">
+            <span class="post-author">관리자</span>
+            <span class="meta-divider">•</span>
+            <span class="post-date">2024-03-24</span>
+          </div>
+        </header>
+
+        <div class="post-content">
+          <p>안녕하세요, 브런치스토리 회원 여러분.</p>
+          <p>저희 사이트가 새롭게 개편되었습니다. 주요 변경사항은 다음과 같습니다:</p>
+          <p>
+            1. 디자인 리뉴얼: 더 깔끔하고 직관적인 디자인으로 변경되었습니다.<br>
+            2. 반응형 웹 지원: 모바일, 태블릿, 데스크탑 등 다양한 기기에서 최적화된 경험을 제공합니다.<br>
+            3. 댓글 시스템 개선: 대댓글 기능이 추가되었습니다.<br>
+            4. 작가 프로필 강화: 작가님들의 프로필 페이지가 더 풍성해졌습니다.
+          </p>
+          <p>새로운 기능들을 충분히 경험해보시고, 불편한 점이나 개선이 필요한 부분이 있으시면 언제든지 피드백 주시기 바랍니다.</p>
+          <p>앞으로도 더 나은 서비스를 제공하기 위해 노력하겠습니다. 감사합니다.</p>
+        </div>
+
+        <div class="post-actions">
+          <a href="notice.html" class="post-button list-button">목록</a>
+          <a href="notice-edit.html?id=5" class="post-button edit-button">수정</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

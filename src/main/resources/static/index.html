@@ -12,8 +12,7 @@
 <div class="top-banner">
   <span>새롭게 선보이는 브런치 작가 맴버십을 구독해 보세요.</span>
 </div>
-
-<!-- 헤더 -->
+<!-- 헤더 부분만 수정 -->
 <header class="main-header">
   <div class="container header-container">
     <!-- 모바일 메뉴 버튼 -->
@@ -23,9 +22,9 @@
 
     <!-- 블로그 로고 -->
     <a href="index.html" class="logo">
-        <span class="brunch-title">
-          <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
-        </span>
+      <span class="brunch-title">
+        <span class="brunch-highlight">작품이 되는 이야기</span>, 브런치스토리
+      </span>
     </a>
 
     <!-- 데스크탑 네비게이션 -->
@@ -36,10 +35,32 @@
       <a href="setting.html" class="nav-link">설정</a>
     </nav>
 
-    <!-- 검색 버튼 -->
-    <button class="search-button" aria-label="검색">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    </button>
+    <!-- 사용자 메뉴 -->
+    <div class="user-menu">
+      <a href="login.html" class="login-button" id="loginButton">로그인</a>
+      <div class="user-profile" id="userProfile" style="display: none;">
+        <img src="/placeholder.svg?height=32&width=32" alt="프로필 이미지" class="profile-image">
+        <div class="user-dropdown">
+          <a href="settings.html">내 정보</a>
+          <a href="#" id="logoutButton">로그아웃</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 검색 버튼 및 검색창 -->
+    <div class="search-container">
+      <button class="search-button" id="searchToggleBtn" aria-label="검색">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <div class="search-box" id="searchBox">
+        <form id="searchForm" action="search_results.html" method="get">
+          <input type="text" name="query" id="searchInput" placeholder="검색어를 입력하세요" aria-label="검색어 입력">
+          <button type="submit" class="search-submit" aria-label="검색 실행">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -54,10 +75,14 @@
     </button>
   </div>
   <nav class="mobile-nav">
-    <a href="index.html" class="nav-link">메인 소개</a>
-    <a href="notice.html" class="nav-link">공지사항</a>
-    <a href="posts.html" class="nav-link">일반 게시글</a>
-    <a href="setting.html" class="nav-link">설정</a>
+    <a href="intro.html" class="mobile-nav-link">메인 소개</a>
+    <a href="notice.html" class="mobile-nav-link">공지사항</a>
+    <a href="posts.html" class="mobile-nav-link">일반 게시글</a>
+    <a href="settings.html" class="mobile-nav-link">설정</a>
+    <div class="mobile-user-menu">
+      <a href="login.html" class="mobile-nav-link" id="mobileLoginButton">로그인</a>
+      <a href="#" class="mobile-nav-link" id="mobileLogoutButton" style="display: none;">로그아웃</a>
+    </div>
   </nav>
 </div>
 
@@ -164,4 +189,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
